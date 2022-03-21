@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
@@ -14,6 +15,6 @@
     "types": ["jest", "node"]
   },
   "compileOnSave": true,
-  "include": ["src/**/*.ts", ".eslintrc.js"],
-  "exclude": ["node_modules","**/*.test.ts"]
+  "include": ["src/**/*.ts", ".eslintrc.js","src/credentials.json"],
+  "exclude": ["node_modules", "**/*.test.ts"]
 }

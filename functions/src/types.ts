@@ -1,6 +1,6 @@
 type Delivery = {
-  id: string;
-  creation_date: Date;
+  id?: string;
+  creation_date?: Date;
   state: "pending" | "assigned" | "in_transit" | "delivered";
   pickup: {
     pickup_lat: number;
@@ -23,3 +23,5 @@ type Bot = {
   };
   zone_id: string;
 };
+
+export { Delivery,Bot};
