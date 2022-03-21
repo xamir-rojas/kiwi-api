@@ -12,6 +12,7 @@ type Delivery = {
     dropoff_lon: number;
   };
   zone_id: string;
+  bot_id?: string;
 };
 
 type Bot = {
@@ -24,4 +25,4 @@ type Bot = {
   zone_id: string;
 };
 
-export { Delivery,Bot};
+export { Delivery, Bot };
