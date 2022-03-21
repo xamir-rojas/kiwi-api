@@ -64,6 +64,18 @@ botsRouter.post("/", async (req, res) => {
   }
 });
 
+botsRouter.patch("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const body = req.body;
+    const doc = db.collection(collection).doc(id);
+    await doc.update({ ...body });
+    return res.status(200).json({ message: "updated", id: id });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
 botsRouter.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;
