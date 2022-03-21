@@ -2,16 +2,16 @@ import request from "supertest";
 import test from "firebase-functions-test";
 import sinon from "sinon";
 import admin from "firebase-admin";
-
-import { kiwiFunctions } from "../index";
-import { faker } from "@faker-js/faker";
-import { Delivery } from "../types";
 import { assert } from "console";
 
-let adminInitStub;
-const functionsTest = test();
+import { kiwiFunctions } from "../../index";
+import { mockUpDelivery } from "../mockUpObjects";
 
 const apiURL = "/api/v1/deliveries/";
+
+const functionsTest = test();
+
+let adminInitStub;
 
 beforeAll(() => {
   adminInitStub = sinon.stub(admin, "initializeApp");
@@ -21,32 +21,6 @@ afterAll(() => {
   adminInitStub.restore();
   functionsTest.cleanup();
 });
-
-const mockUpDelivery: Delivery = {
-  creation_date: new Date(),
-  state: "pending",
-  pickup: {
-    pickup_lat: Number(faker.address.latitude()),
-    pickup_lon: Number(faker.address.longitude()),
-  },
-  dropoff: {
-    dropoff_lat: Number(faker.address.latitude()),
-    dropoff_lon: Number(faker.address.longitude()),
-  },
-  zone_id: faker.datatype.uuid(),
-};
-
-console.log(mockUpDelivery);
-/*
-const mockUpBot = {
-  status: "available",
-  location: {
-    dropoff_lat: faker.address.latitude(),
-    dropoff_lon: faker.address.longitude(),
-  },
-  zone_id: faker.datatype.uuid(),
-};
-*/
 
 describe("Test example", () => {
   it("GET /", (done) => {
@@ -87,7 +61,6 @@ describe("Deliveries API", () => {
       .expect(201)
       .expect((res) => {
         deliveryId = res.body.data.id;
-        console.log("delivery ID:", deliveryId);
       })
       .end(() => {
         request(kiwiFunctions)

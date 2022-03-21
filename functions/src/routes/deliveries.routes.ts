@@ -18,7 +18,6 @@ deliveriesRouter.get("/:id", async (req, res) => {
         return { id: doc.id, ...data };
       }
     });
-    console.log(item);
     return res.status(200).json({ message: "success", data: item });
   } catch (error) {
     return res.status(500).json({ message: error.message });
