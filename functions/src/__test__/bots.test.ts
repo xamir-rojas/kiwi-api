@@ -1,12 +1,12 @@
 import express from "express";
-import { Delivery } from "../types";
+import { Bot } from "../types";
 import { db } from "..";
 
-const collection = "deliveries";
+const collection = "bots";
 
-const deliveriesRouter = express.Router();
+const botsRouter = express.Router();
 
-deliveriesRouter.get("/:id", async (req, res) => {
+botsRouter.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const doc = db.collection(collection).doc(id);
@@ -24,7 +24,7 @@ deliveriesRouter.get("/:id", async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 });
-deliveriesRouter.get("/", async (req, res) => {
+botsRouter.get("/", async (req, res) => {
   try {
     let query = db.collection(collection);
     const querySnapshot = await query.get();
@@ -50,7 +50,7 @@ deliveriesRouter.get("/", async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 });
-deliveriesRouter.post("/", async (req, res) => {
+botsRouter.post("/", async (req, res) => {
   try {
     const body = req.body;
     let newDelivery: Delivery = {
@@ -66,7 +66,7 @@ deliveriesRouter.post("/", async (req, res) => {
       },
       zone_id: body.zone_id,
     };
-    const result = await db.collection(collection).add(newDelivery);
+    const result = await db.collection("deliveries").add(newDelivery);
     newDelivery.id = result.id;
     return res.status(201).json({ message: "created", data: newDelivery });
   } catch (error) {
@@ -74,7 +74,7 @@ deliveriesRouter.post("/", async (req, res) => {
   }
 });
 
-deliveriesRouter.delete("/:id", async (req, res) => {
+botsRouter.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const doc = db.collection(collection).doc(id);
@@ -84,4 +84,4 @@ deliveriesRouter.delete("/:id", async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 });
-export { deliveriesRouter };
+export { botsRouter };

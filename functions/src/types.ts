@@ -15,7 +15,7 @@ type Delivery = {
 };
 
 type Bot = {
-  id: string;
+  id?: string;
   status: "available" | "busy" | "reserved";
   location: {
     dropoff_lat: number;

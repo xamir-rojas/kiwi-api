@@ -1,12 +1,12 @@
 import express from "express";
-import { Delivery } from "../types";
+import { Bot } from "../types";
 import { db } from "..";
 
-const collection = "deliveries";
+const collection = "bots";
 
-const deliveriesRouter = express.Router();
+const botsRouter = express.Router();
 
-deliveriesRouter.get("/:id", async (req, res) => {
+botsRouter.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const doc = db.collection(collection).doc(id);
@@ -24,7 +24,8 @@ deliveriesRouter.get("/:id", async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 });
-deliveriesRouter.get("/", async (req, res) => {
+
+botsRouter.get("/", async (req, res) => {
   try {
     let query = db.collection(collection);
     const querySnapshot = await query.get();
@@ -32,16 +33,10 @@ deliveriesRouter.get("/", async (req, res) => {
 
     const response = docs.map((doc) => ({
       id: doc.id,
-      name: doc.data().name,
-      creation_date: doc.data().date,
-      state: doc.data().state,
-      pickup: {
-        pickup_lat: doc.data().pickup.pickup_lat,
-        pickup_lon: doc.data().pickup.pickup_lon,
-      },
-      dropoff: {
-        dropoff_lat: doc.data().dropoff.dropoff_lat,
-        dropoff_lon: doc.data().dropoff.dropoff_lon,
+      status: doc.data().status,
+      location: {
+        dropoff_lat: doc.data().location.dropoff_lat,
+        dropoff_lon: doc.data().location.dropoff_lon,
       },
       zone_id: doc.data().zone_id,
     }));
@@ -50,31 +45,26 @@ deliveriesRouter.get("/", async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 });
-deliveriesRouter.post("/", async (req, res) => {
+botsRouter.post("/", async (req, res) => {
   try {
     const body = req.body;
-    let newDelivery: Delivery = {
-      creation_date: new Date(),
-      state: body.state,
-      pickup: {
-        pickup_lat: body.pickup.pickup_lat,
-        pickup_lon: body.pickup.pickup_lon,
-      },
-      dropoff: {
+    let newBot: Bot = {
+      status: body.status,
+      location: {
         dropoff_lat: body.dropoff.dropoff_lat,
         dropoff_lon: body.dropoff.dropoff_lon,
       },
       zone_id: body.zone_id,
     };
-    const result = await db.collection(collection).add(newDelivery);
-    newDelivery.id = result.id;
-    return res.status(201).json({ message: "created", data: newDelivery });
+    const result = await db.collection(collection).add(newBot);
+    newBot.id = result.id;
+    return res.status(201).json({ message: "created", data: newBot });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 });
 
-deliveriesRouter.delete("/:id", async (req, res) => {
+botsRouter.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const doc = db.collection(collection).doc(id);
@@ -84,4 +74,4 @@ deliveriesRouter.delete("/:id", async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 });
-export { deliveriesRouter };
+export { botsRouter };
