@@ -32,7 +32,7 @@ deliveriesRouter.get("/", async (req, res) => {
     const response = docs.map((doc) => ({
       id: doc.id,
       name: doc.data().name,
-      creation_date: doc.data().date,
+      creation_date: doc.data().creation_date,
       state: doc.data().state,
       pickup: {
         pickup_lat: doc.data().pickup.pickup_lat,

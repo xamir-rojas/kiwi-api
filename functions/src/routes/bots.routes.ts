@@ -51,8 +51,8 @@ botsRouter.post("/", async (req, res) => {
     let newBot: Bot = {
       status: body.status,
       location: {
-        dropoff_lat: body.dropoff.dropoff_lat,
-        dropoff_lon: body.dropoff.dropoff_lon,
+        dropoff_lat: body.location.dropoff_lat,
+        dropoff_lon: body.location.dropoff_lon,
       },
       zone_id: body.zone_id,
     };
